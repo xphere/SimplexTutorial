@@ -1,6 +1,7 @@
 {
     "require": {
         "symfony/class-loader": "2.1.*"
-    }
+    },
+    "minimum-stability": "dev"
 }
 
