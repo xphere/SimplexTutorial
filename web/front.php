@@ -18,7 +18,7 @@ $matcher = new UrlMatcher($routes, $context);
 
 try {
     $request->attributes->add($matcher->match($request->getPathInfo()));
-    $response = call_user_func('render_template', $request);
+    $response = call_user_func($request->attributes->get('_controller', 'render_template'), $request);
 
 } catch (ResourceNotFoundException $e) {
     $response = new Response('Not Found', 404);
