@@ -10,7 +10,7 @@ $routes->add('hello', new Route('/hello/{name}', array('name' => 'World')));
 $routes->add('bye', new Route('/bye'));
 $routes->add('leap_year', new Route('/is_leap_year/{year}', array(
     'year' => null,
-    '_controller' => array(new LeapYearController, 'indexAction'),
+    '_controller' => 'LeapYearController::indexAction',
 )));
 
 function is_leap_year($year)
@@ -20,10 +20,9 @@ function is_leap_year($year)
 
 class LeapYearController
 {
-    public function indexAction(Request $request)
+    public function indexAction($year)
     {
-        $year = $request->attributes->get('year') ?: date('Y');
-        if (is_leap_year($year)) {
+        if (is_leap_year($year ?: date('Y'))) {
             return new Response('Yep, this is a leap year!');
         }
         return new Response('Nope, this is not a leap year.');
