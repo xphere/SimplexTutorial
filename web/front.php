@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing;
 use Symfony\Component\HttpKernel;
 use Symfony\Component\EventDispatcher\EventDispatcher;
+use Simplex\Event\ContentLengthListener;
 
 $request = Request::createFromGlobals();
 $routes = require __DIR__ . '/../src/app.php';
@@ -16,14 +17,7 @@ $matcher = new Routing\Matcher\UrlMatcher($routes, $context);
 $resolver = new HttpKernel\Controller\ControllerResolver();
 
 $dispatcher = new EventDispatcher();
-$dispatcher->addListener(Simplex\Events::RESPONSE, function(Simplex\Event\ResponseEvent $event) {
-    $response = $event->getResponse();
-    $headers = $response->headers;
-
-    if (!$headers->has('Content-Length') && !$headers->has('Transfer-Encoding')) {
-        $headers->set('Content-Length', strlen($response->getContent()));
-    }
-});
+$dispatcher->addListener(Simplex\Events::RESPONSE, array(new ContentLengthListener(), 'onResponse'));
 
 $framework = new Simplex\Framework($dispatcher, $matcher, $resolver);
 $response = $framework->handle($request);
