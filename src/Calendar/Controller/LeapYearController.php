@@ -2,7 +2,6 @@
 
 namespace Calendar\Controller;
 
-use Symfony\Component\HttpFoundation\Response;
 use Calendar\Model\Year;
 
 class LeapYearController
