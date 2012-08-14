@@ -8,6 +8,9 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 class FrameworkTest extends \PHPUnit_Framework_TestCase
 {
+    const URL_MATCHER = 'Symfony\Component\Routing\Matcher\UrlMatcherInterface';
+    const CONTROLLER_RESOLVER = 'Symfony\Component\HttpKernel\Controller\ControllerResolverInterface';
+
     public function testNotFoundHandling()
     {
         $framework = $this->getFrameworkForException(new ResourceNotFoundException());
@@ -24,14 +27,13 @@ class FrameworkTest extends \PHPUnit_Framework_TestCase
 
     protected function getFrameworkForException($exception)
     {
-        $matcher = $this->getMock('Symfony\Component\Routing\Matcher\UrlMatcherInterface');
+        $matcher = $this->getMock(self::URL_MATCHER);
         $matcher
             ->expects($this->once())
             ->method('match')
             ->will($this->throwException($exception))
         ;
-        $resolver = $this->getMock('Symfony\Component\HttpKernel\Controller\ControllerResolverInterface');
- 
+        $resolver = $this->getMock(self::CONTROLLER_RESOLVER);
         return new Framework($matcher, $resolver);
     }
 }
