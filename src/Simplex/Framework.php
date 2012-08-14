@@ -8,6 +8,7 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Matcher\UrlMatcherInterface;
 use Symfony\Component\HttpKernel\Controller\ControllerResolverInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Simplex\Event\ResponseEvent;
 
 class Framework
 {
@@ -39,6 +40,8 @@ class Framework
             $response = new Response('An error occurred', 500);
         }
 
-        return $response;
+        $event = new ResponseEvent($response, $request);
+        $this->dispatcher->dispatch(Events::RESPONSE, $event);
+        return $event->getResponse();
     }
 }
