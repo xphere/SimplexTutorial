@@ -7,14 +7,17 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Matcher\UrlMatcherInterface;
 use Symfony\Component\HttpKernel\Controller\ControllerResolverInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class Framework
 {
+    private $dispatcher;
     private $matcher;
     private $resolver;
 
-    public function __construct(UrlMatcherInterface $matcher, ControllerResolverInterface $resolver)
+    public function __construct(EventDispatcherInterface $dispatcher, UrlMatcherInterface $matcher, ControllerResolverInterface $resolver)
     {
+        $this->dispatcher = $dispatcher;
         $this->matcher = $matcher;
         $this->resolver = $resolver;
     }
