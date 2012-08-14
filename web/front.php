@@ -7,6 +7,7 @@ use Symfony\Component\Routing;
 use Symfony\Component\HttpKernel;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Simplex\Event\ContentLengthListener;
+use Simplex\Event\StringResponseListener;
 use Calendar\Event\LegalListener;
 
 $request = Request::createFromGlobals();
@@ -22,6 +23,7 @@ $dispatcher->addSubscriber(new HttpKernel\EventListener\RouterListener($matcher)
 $dispatcher->addSubscriber(new HttpKernel\EventListener\ResponseListener('UTF-8'));
 $dispatcher->addSubscriber(new LegalListener());
 $dispatcher->addSubscriber(new ContentLengthListener());
+$dispatcher->addSubscriber(new StringResponseListener());
 
 $framework = new Simplex\Framework($dispatcher, $resolver);
 $response = $framework->handle($request);
