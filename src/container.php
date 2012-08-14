@@ -5,18 +5,20 @@ use Symfony\Component\DependencyInjection\Reference;
 
 $dic = new DependencyInjection\ContainerBuilder();
 
+$dic->setParameter('charset', 'UTF-8');
+
 $dic->register('context', 'Symfony\Component\Routing\RequestContext');
 
 $dic->register('matcher', 'Symfony\Component\Routing\Matcher\UrlMatcher')
-    ->setArguments(array($routes, new Reference('context')));
+    ->setArguments(array('%routes%', new Reference('context')));
 
 $dic->register('resolver', 'Symfony\Component\HttpKernel\Controller\ControllerResolver');
- 
+
 $dic->register('listener.router', 'Symfony\Component\HttpKernel\EventListener\RouterListener')
     ->setArguments(array(new Reference('matcher')));
 
 $dic->register('listener.response', 'Symfony\Component\HttpKernel\EventListener\ResponseListener')
-    ->setArguments(array('UTF-8'));
+    ->setArguments(array('%charset%'));
 
 $dic->register('listener.exception', 'Symfony\Component\HttpKernel\EventListener\ExceptionListener')
     ->setArguments(array('Simplex\Controller\ErrorController::exceptionAction'));
