@@ -11,20 +11,4 @@ $routes->add('leap_year', new Route('/is_leap_year/{year}', array(
     '_controller' => 'Calendar\Controller\LeapYearController::indexAction',
 )));
 
-function is_leap_year($year)
-{
-    return $year % 400 === 0 || ($year % 4 === 0 && $year % 100 !== 0);
-}
-
-class LeapYearController
-{
-    public function indexAction($year)
-    {
-        if (is_leap_year($year ?: date('Y'))) {
-            return new Response('Yep, this is a leap year!');
-        }
-        return new Response('Nope, this is not a leap year.');
-    }
-}
-
 return $routes;
