@@ -11,8 +11,7 @@ $dic = require __DIR__ . '/../src/container.php';
 
 $dic->register('listener.calendar_legal', 'Calendar\Event\LegalListener');
 $dic->getDefinition('dispatcher')
-    ->addMethodCall('addSubscriber', array(new Reference('listener.calendar_legal')))
-;
+    ->addMethodCall('addSubscriber', array(new Reference('listener.calendar_legal')));
 
 $dic->get('framework')
     ->handle($request)

@@ -18,6 +18,9 @@ $dic->register('listener.router', 'Symfony\Component\HttpKernel\EventListener\Ro
 $dic->register('listener.response', 'Symfony\Component\HttpKernel\EventListener\ResponseListener')
     ->setArguments(array('UTF-8'));
 
+$dic->register('listener.exception', 'Symfony\Component\HttpKernel\EventListener\ExceptionListener')
+    ->setArguments(array('Simplex\Controller\ErrorController::exceptionAction'));
+
 $dic->register('listener.content_length', 'Simplex\Event\ContentLengthListener');
 $dic->register('listener.string_response', 'Simplex\Event\StringResponseListener');
 
