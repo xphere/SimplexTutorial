@@ -8,7 +8,7 @@ use Symfony\Component\Routing\RouteCollection;
 $routes = new RouteCollection();
 $routes->add('leap_year', new Route('/is_leap_year/{year}', array(
     'year' => null,
-    '_controller' => 'LeapYearController::indexAction',
+    '_controller' => 'Calendar\Controller\LeapYearController::indexAction',
 )));
 
 function is_leap_year($year)

@@ -6,7 +6,10 @@
         "symfony/http-kernel": "2.1.*"
     },
     "autoload": {
-        "psr-0": { "Simplex": "src/" }
+        "psr-0": {
+            "Simplex": "src/",
+            "Calendar": "src/"
+        }
     },
     "minimum-stability": "dev"
 }
