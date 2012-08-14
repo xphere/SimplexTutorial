@@ -6,8 +6,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing;
 use Symfony\Component\HttpKernel;
 use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\HttpKernel\HttpCache\HttpCache;
-use Symfony\Component\HttpKernel\HttpCache\Store;
 use Simplex\Event\ContentLengthListener;
 use Calendar\Event\LegalListener;
 
@@ -20,11 +18,12 @@ $matcher = new Routing\Matcher\UrlMatcher($routes, $context);
 $resolver = new HttpKernel\Controller\ControllerResolver();
 
 $dispatcher = new EventDispatcher();
+$dispatcher->addSubscriber(new HttpKernel\EventListener\RouterListener($matcher));
+$dispatcher->addSubscriber(new HttpKernel\EventListener\ResponseListener('UTF-8'));
 $dispatcher->addSubscriber(new LegalListener());
 $dispatcher->addSubscriber(new ContentLengthListener());
 
-$framework = new Simplex\Framework($dispatcher, $matcher, $resolver);
-$framework = new HttpCache($framework, new Store(__DIR__ . '/../cache'));
+$framework = new Simplex\Framework($dispatcher, $resolver);
 $response = $framework->handle($request);
 
 $response->send();
