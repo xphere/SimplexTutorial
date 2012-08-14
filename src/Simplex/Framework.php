@@ -8,9 +8,10 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Matcher\UrlMatcherInterface;
 use Symfony\Component\HttpKernel\Controller\ControllerResolverInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Simplex\Event\ResponseEvent;
 
-class Framework
+class Framework implements HttpKernelInterface
 {
     private $dispatcher;
     private $matcher;
@@ -23,7 +24,7 @@ class Framework
         $this->resolver = $resolver;
     }
 
-    public function handle(Request $request)
+    public function handle(Request $request, $type = HttpKernelInterface::MASTER_REQUEST, $catch = true)
     {
         try {
             $request->attributes->add($this->matcher->match($request->getPathInfo()));

@@ -6,6 +6,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing;
 use Symfony\Component\HttpKernel;
 use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\HttpKernel\HttpCache\HttpCache;
+use Symfony\Component\HttpKernel\HttpCache\Store;
 use Simplex\Event\ContentLengthListener;
 use Calendar\Event\LegalListener;
 
@@ -22,6 +24,7 @@ $dispatcher->addSubscriber(new LegalListener());
 $dispatcher->addSubscriber(new ContentLengthListener());
 
 $framework = new Simplex\Framework($dispatcher, $matcher, $resolver);
+$framework = new HttpCache($framework, new Store(__DIR__ . '/../cache'));
 $response = $framework->handle($request);
 
 $response->send();
