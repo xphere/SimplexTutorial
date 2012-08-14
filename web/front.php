@@ -18,8 +18,8 @@ $matcher = new Routing\Matcher\UrlMatcher($routes, $context);
 $resolver = new HttpKernel\Controller\ControllerResolver();
 
 $dispatcher = new EventDispatcher();
-$dispatcher->addListener(Simplex\Events::RESPONSE, array(new LegalListener(), 'onResponse'));
-$dispatcher->addListener(Simplex\Events::RESPONSE, array(new ContentLengthListener(), 'onResponse'));
+$dispatcher->addSubscriber(new LegalListener());
+$dispatcher->addSubscriber(new ContentLengthListener());
 
 $framework = new Simplex\Framework($dispatcher, $matcher, $resolver);
 $response = $framework->handle($request);
