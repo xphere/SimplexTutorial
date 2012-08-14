@@ -30,13 +30,15 @@ class Framework
             $controller = $this->resolver->getController($request);
             $arguments = $this->resolver->getArguments($request, $controller);
 
-            return call_user_func_array($controller, $arguments);
+            $response = call_user_func_array($controller, $arguments);
 
         } catch (ResourceNotFoundException $e) {
-            return new Response('Not Found', 404);
+            $response = new Response('Not Found', 404);
 
         } catch (\Exception $e) {
-            return new Response('An error occurred', 500);
+            $response = new Response('An error occurred', 500);
         }
+
+        return $response;
     }
 }
